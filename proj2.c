@@ -189,6 +189,8 @@ int main( int argc, char **argv)
 LIST *createList(void) {
     LIST *list = (LIST *)malloc(sizeof(LIST));
 
+	if(!list) return 0;
+
     list->count = 0;
     list->head = NULL;
     list->head2 = NULL;
@@ -201,8 +203,7 @@ void destroyList( LIST *pList) {
 	NODE *next = NULL;
 	while(pos != NULL) {
 		next = pos->link;
-		free(pos->dataPtr->word);
-		free(pos->dataPtr);
+		destroyWord(pos->dataPtr);
         free(pos);    
 		pos = next;
 	}
@@ -224,15 +225,16 @@ void destroyWord( tWord *pWord) {
 }
 
 int addNode( LIST *pList, tWord *dataInPtr) {
-	int found, ret;
+	int found, success, ret;
 	NODE *pPre, *pLoc;
 
 	found = _search(pList, &pPre, &pLoc, dataInPtr);
 	if (found) {
 		pLoc->dataPtr->freq++;
-		ret = 2;
+		ret = 2; // 2->duplicated key
 	} else {
-		ret = _insert(pList, pPre, dataInPtr);
+		success = _insert(pList, pPre, dataInPtr);
+		ret = success; // 0->overflow, 1->success
 	}
 
 	return ret;
@@ -275,7 +277,6 @@ static int _insert( LIST *pList, NODE *pPre, tWord *dataInPtr) {
 void connect_by_frequency( LIST *pList) {
 	NODE *pos = pList->head;
 	while (pos != NULL) {
-		int found, ret;
 		NODE *pPre, *pLoc;
 
 		_search_by_freq(pList, &pPre, &pLoc, pos->dataPtr);

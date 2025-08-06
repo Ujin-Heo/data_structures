@@ -1,0 +1,56 @@
+CC = gcc
+
+# 소스 파일 디렉토리
+SRC_DIR = ./src
+
+# 오프젝트 파일 디렉토리
+OBJ_DIR = ./obj
+
+# 생성하고자 하는 실행 파일 이름
+TARGET = main
+
+# Make에 사용할 소스 파일(.c), 오브젝트 파일(.o), 디펜던시 파일(.d) 경로
+SRCS = $(wildcard $(SRC_DIR)/*.c) # wildcard: 패턴과 일치하는 파일 경로 모두 뽑아내기
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS)) # patsubst 함수는 $(patsubst 패턴,치환 후 형태,변수) 의 같은 꼴로 사용함
+DEPS = $(OBJS:.o=.d) # .o를 .d로 대체함. 띄어쓰기 없어야 됨.
+
+# alias 설정(make all 해도 make main과 똑같이 실행되도록)
+all: $(TARGET)
+
+# Makefile의 구조
+# target(만들 거) : prerequisites(필요한 거)
+#	recipe(실행할 거)
+
+# 참고) Makefile 자동 변수
+# $@ -> 타겟 이름
+# $< -> prerequisites 중 첫번째 파일
+# $^ -> prerequisites 전체 목록
+
+# 각 .c 파일을 .o 파일로 컴파일하기
+# % -> 패턴과 매치되는 모든 파일에 대해 한 번식 실행 함. 이런 느낌: for % in [foo, bar] print(f"obj/{%}.o : src/{%}.c")
+# -> 첫번째) obj/foo.o : src/foo.c
+# -> 두번째) obj/bar.o : src/bar.c
+# e.g) gcc -c foo.c -o foo.o -MD (-MD: .d 파일 자동 생성)
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+	$(CC) -c $< -o $@ -MD
+
+# .o 파일들을 최종 단일 실행 파일로 링크하기
+# e.g) gcc foo.o bar.o -o main
+$(TARGET) : $(OBJS)
+	$(CC) $(OBJS) -o $@
+
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS) $(DEPS) $(TARGET)
+
+# 디펜던시 파일(.d)들 포함하기 -> prerequisites에 .h 파일 포함시키기 위해 사용 (두번째 실행부터 포함됨) 
+-include $(DEPS)
+# e.g)
+# $ cat main.d  
+# main.o: main.c foo.h bar.h
+
+
+# 위에서는 안 썼지만 Makefile에는 이런 함수도 있다
+# 경로명에서 파일 이름만 추출하주는 함수 $(notdir 전체 경로)
+# 특정 문자열을 대체하는 $(subst from,to,text)

@@ -4,13 +4,15 @@
 
 #include "array_stack.h"
 
+void print_stack(void *data) { printf("%s ", (char *)data); }
+
 int main() {
 
-  Stack *stack = create_stack();
+  Stack *stack = stack_create();
 
   char task[10];
   while (1) {
-    printf("===============================================\n");
+    printf("\n===============================================\n");
     printf("Please enter the task to perform:\n");
     printf("push / pop / size / empty / top / print / quit\n");
 
@@ -23,37 +25,34 @@ int main() {
       char *input = (char *)malloc(sizeof(char) * input_size);
       strcpy(input, buffer);
 
-      push(stack, input);
+      stack_push(stack, input);
 
     } else if (strcmp(task, "pop") == 0) {
       void *output;
-      int success = pop(stack, &output);
-      if (!success) {
-        printf("no data left to pop in the stack\n");
+      if (!stack_pop(stack, &output)) {
+        printf("No data left to pop\n");
         continue;
       }
-      printf("%s\n", (char *)output);
+      printf("Popped data: %s\n", (char *)output);
       free(output);
 
     } else if (strcmp(task, "size") == 0) {
-      printf("size of the stack: %d\n", stack->count);
+      printf("Size: %d\n", stack_size(stack));
 
     } else if (strcmp(task, "empty") == 0) {
-      (stack->count == 0) ? printf("the stack is empty\n")
-                          : printf("the stack is not empty\n");
+      stack_empty(stack) ? printf("Empty\n") : printf("Not empty\n");
 
     } else if (strcmp(task, "top") == 0) {
-      if (stack->count == 0) {
-        printf("there is no data in the stack yet\n");
+      void *output;
+      if (!stack_top(stack, &output)) {
+        printf("No data yet\n");
         continue;
       }
-      printf("top data: %s\n", (char *)stack->array[stack->count - 1].data);
+      printf("Top data: %s\n", (char *)output);
 
     } else if (strcmp(task, "print") == 0) {
       printf("[bottom] ");
-      for (int i = 0; i < stack->count; i++) {
-        printf("%s ", (char *)stack->array[i].data);
-      }
+      stack_traverse(stack, print_stack);
       printf("[top]\n");
 
     } else if (strcmp(task, "quit") == 0) {

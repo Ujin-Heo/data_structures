@@ -1,4 +1,4 @@
-#include "array_stack.h"
+#include "linked_list_stack.h"
 #include <stdlib.h>
 
 #define ARRAY_SIZE 10
@@ -6,18 +6,16 @@
 Stack *stack_create() {
   Stack *stack = (Stack *)malloc(sizeof(Stack));
   stack->count = 0;
-  stack->capacity = ARRAY_SIZE;
-  stack->array = (Node *)malloc(sizeof(Node) * ARRAY_SIZE);
+  stack->base = NULL;
   return stack;
 };
 
 void stack_push(Stack *stack, void *input) {
-  if (stack->count == stack->capacity) {
-    stack->array =
-        realloc(stack->array, sizeof(Node) * (stack->capacity + ARRAY_SIZE));
-  }
+  Node *pNew = (Node *)malloc(sizeof(Node));
+  pNew->data = input;
+  pNew->next = stack->base;
 
-  stack->array[stack->count].data = input;
+  stack->base = pNew;
   stack->count++;
 };
 
@@ -25,8 +23,12 @@ int stack_pop(Stack *stack, void **output) {
   if (stack->count == 0)
     return 0;
 
+  *output = stack->base->data;
+
+  Node *temp = stack->base;
+  stack->base = stack->base->next;
+  free(temp);
   stack->count--;
-  *output = stack->array[stack->count].data;
 
   return 1;
 };
@@ -39,18 +41,25 @@ int stack_top(Stack *stack, void **output) {
   if (stack->count == 0)
     return 0;
 
-  *output = stack->array[stack->count - 1].data;
+  *output = stack->base->data;
 
   return 1;
 }
 
 void stack_traverse(Stack *stack, void callback(void *arg)) {
-  for (int i = 0; i < stack->count; i++) {
-    callback(stack->array[stack->count - i - 1].data);
+  Node *pos = stack->base;
+  while (pos) {
+    callback(pos->data);
+    pos = pos->next;
   }
 }
 
 void stack_destroy(Stack *stack) {
-  free(stack->array);
+  Node *pos = stack->base, *temp = NULL;
+  while (pos) {
+    temp = pos;
+    pos = pos->next;
+    free(temp);
+  }
   free(stack);
 }

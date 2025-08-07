@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "array_stack.h"
+#include "linked_list_stack.h"
 
 void print_stack(void *data) { printf("%s ", (char *)data); }
 
@@ -51,9 +51,9 @@ int main() {
       printf("Top data: %s\n", (char *)output);
 
     } else if (strcmp(task, "print") == 0) {
-      printf("[top]\n");
+      printf("[top] ");
       stack_traverse(stack, print_stack);
-      printf("[bottom] ");
+      printf("[bottom]\n");
 
     } else if (strcmp(task, "quit") == 0) {
       break;

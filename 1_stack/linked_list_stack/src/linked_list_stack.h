@@ -1,11 +1,11 @@
-typedef struct {
+typedef struct node {
   void *data;
+  struct node *next;
 } Node;
 
 typedef struct {
   int count;
-  int capacity;
-  Node *array;
+  Node *base;
 } Stack;
 
 Stack *stack_create();

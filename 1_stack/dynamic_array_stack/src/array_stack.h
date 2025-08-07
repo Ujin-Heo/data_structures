@@ -8,18 +8,18 @@ typedef struct {
   Node *array;
 } Stack;
 
-Stack *stack_create();
+Stack *queue_create();
 
-void stack_push(Stack *stack, void *input);
+void queue_push(Stack *stack, void *input);
 
-int stack_pop(Stack *stack, void **output);
+int queue_pop(Stack *stack, void **output);
 
-int stack_size(Stack *stack);
+int queue_size(Stack *stack);
 
-int stack_empty(Stack *stack);
+int queue_empty(Stack *stack);
 
-int stack_top(Stack *stack, void **output);
+int queue_top(Stack *stack, void **output);
 
-void stack_traverse(Stack *stack, void callback(void *arg));
+void queue_traverse(Stack *stack, void callback(void *arg));
 
-void stack_destroy(Stack *stack);
+void queue_destroy(Stack *stack);

@@ -1,16 +1,14 @@
 #include "linked_list_stack.h"
 #include <stdlib.h>
 
-#define ARRAY_SIZE 10
-
-Stack *stack_create() {
+Stack *queue_create() {
   Stack *stack = (Stack *)malloc(sizeof(Stack));
   stack->count = 0;
   stack->base = NULL;
   return stack;
 };
 
-void stack_push(Stack *stack, void *input) {
+void queue_push(Stack *stack, void *input) {
   Node *pNew = (Node *)malloc(sizeof(Node));
   pNew->data = input;
   pNew->next = stack->base;
@@ -19,7 +17,7 @@ void stack_push(Stack *stack, void *input) {
   stack->count++;
 };
 
-int stack_pop(Stack *stack, void **output) {
+int queue_pop(Stack *stack, void **output) {
   if (stack->count == 0)
     return 0;
 
@@ -33,11 +31,11 @@ int stack_pop(Stack *stack, void **output) {
   return 1;
 };
 
-int stack_size(Stack *stack) { return stack->count; }
+int queue_size(Stack *stack) { return stack->count; }
 
-int stack_empty(Stack *stack) { return stack->count == 0; }
+int queue_empty(Stack *stack) { return stack->count == 0; }
 
-int stack_top(Stack *stack, void **output) {
+int queue_top(Stack *stack, void **output) {
   if (stack->count == 0)
     return 0;
 
@@ -46,7 +44,7 @@ int stack_top(Stack *stack, void **output) {
   return 1;
 }
 
-void stack_traverse(Stack *stack, void callback(void *arg)) {
+void queue_traverse(Stack *stack, void callback(void *arg)) {
   Node *pos = stack->base;
   while (pos) {
     callback(pos->data);
@@ -54,7 +52,7 @@ void stack_traverse(Stack *stack, void callback(void *arg)) {
   }
 }
 
-void stack_destroy(Stack *stack) {
+void queue_destroy(Stack *stack) {
   Node *pos = stack->base, *temp = NULL;
   while (pos) {
     temp = pos;

@@ -8,7 +8,7 @@ void print_data(void *data) { printf("%s ", (char *)data); }
 
 int main() {
 
-  Stack *stack = queue_create();
+  Stack *stack = stack_create();
 
   char task[10];
   while (1) {
@@ -25,11 +25,11 @@ int main() {
       char *input = (char *)malloc(sizeof(char) * input_size);
       strcpy(input, buffer);
 
-      queue_push(stack, input);
+      stack_push(stack, input);
 
     } else if (strcmp(task, "pop") == 0) {
       void *output;
-      if (!queue_pop(stack, &output)) {
+      if (!stack_pop(stack, &output)) {
         printf("No data left to pop\n");
         continue;
       }
@@ -37,14 +37,14 @@ int main() {
       free(output);
 
     } else if (strcmp(task, "size") == 0) {
-      printf("Size: %d\n", queue_size(stack));
+      printf("Size: %d\n", stack_size(stack));
 
     } else if (strcmp(task, "empty") == 0) {
-      queue_empty(stack) ? printf("Empty\n") : printf("Not empty\n");
+      stack_empty(stack) ? printf("Empty\n") : printf("Not empty\n");
 
     } else if (strcmp(task, "top") == 0) {
       void *output;
-      if (!queue_top(stack, &output)) {
+      if (!stack_top(stack, &output)) {
         printf("No data yet\n");
         continue;
       }
@@ -52,7 +52,7 @@ int main() {
 
     } else if (strcmp(task, "print") == 0) {
       printf("[top]\n");
-      queue_traverse(stack, print_data);
+      stack_traverse(stack, print_data);
       printf("[bottom] ");
 
     } else if (strcmp(task, "quit") == 0) {
@@ -63,7 +63,7 @@ int main() {
     }
   }
 
-  queue_destroy(stack);
+  stack_destroy(stack);
 
   return 0;
 }

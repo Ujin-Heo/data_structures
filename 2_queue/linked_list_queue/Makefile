@@ -1,5 +1,11 @@
 CC = gcc
 
+ifeq ($(DEBUG), 1)
+    CFLAGS = -Wall -Wextra -g -O0
+else
+    CFLAGS = -Wall -Wextra -O2
+endif
+
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 BIN_DIR = ./bin
@@ -18,10 +24,10 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) -c $< -o $@ -MD
+	$(CC) $(CFLAGS) -c $< -o $@ -MD
 
 $(TARGET) : $(OBJS) | $(BIN_DIR)
-	$(CC) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
 .PHONY: clean
 clean:

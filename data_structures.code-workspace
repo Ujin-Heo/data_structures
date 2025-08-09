@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "1_stack/dynamic_array_stack"
+        },
+        {
+            "path": "1_stack/linked_list_stack"
+        },
+        {
+            "path": "2_queue/linked_list_queue"
+        },
+        {
+            "path": "3_deque/linked_list_deque"
+        },
+    ],
+    "settings": {
+        // Optional: global settings for the whole workspace
+        "files.exclude": {
+            "**/bin": true
+        }
+    }
+}

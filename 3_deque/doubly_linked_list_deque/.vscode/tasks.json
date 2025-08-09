@@ -1,0 +1,80 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "DEBUG=1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build without debug",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "all"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "clean"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build"
+    },
+    {
+      "label": "run with valgrind",
+      "type": "shell",
+      "command": "valgrind",
+      "args": [
+        "--leak-check=full",
+        "--track-origins=yes",
+        "--show-leak-kinds=all",
+        "--error-exitcode=1",
+        "--errors-for-leak-kinds=all",
+        "--quiet",
+        "${workspaceFolder}/bin/main"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+    },
+    {
+      "label": "Build & Valgrind",
+      "dependsOn": [
+        "build without debug",
+        "run with valgrind"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+    }
+  ]
+}

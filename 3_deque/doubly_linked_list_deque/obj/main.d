@@ -56,4 +56,4 @@ obj/main.o: src/main.c /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- src/linked_list_deque.h
+ src/doubly_linked_list_deque.h

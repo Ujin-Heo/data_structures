@@ -1,5 +1,6 @@
-obj/linked_list_deque.o: src/linked_list_deque.c \
- /usr/include/stdc-predef.h src/linked_list_deque.h /usr/include/stdlib.h \
+obj/doubly_linked_list_deque.o: src/doubly_linked_list_deque.c \
+ /usr/include/stdc-predef.h src/doubly_linked_list_deque.h \
+ /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \

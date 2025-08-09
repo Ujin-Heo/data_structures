@@ -15,6 +15,9 @@
         {
             "path": "3_deque/linked_list_deque"
         },
+        {
+            "path": "3_deque/doubly_linked_list_deque"
+        },
     ],
     "settings": {
         // Optional: global settings for the whole workspace

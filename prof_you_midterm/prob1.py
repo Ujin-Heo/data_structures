@@ -68,12 +68,14 @@ class Heap(Generic[T]):
             self.swap(self.heapArr, index, larger_index)
             self.reheap_down(larger_index)
 
-    def print_tree(self, root_index, depth=0):
+    def print_tree(self, root_index=0, depth=0):
         if 2 * root_index + 1 < self.count:
             self.print_tree(2 * root_index + 1, depth + 1)
         print(f"{"\t"*depth}{self.heapArr[root_index]}")
         if 2 * root_index + 2 < self.count:
             self.print_tree(2 * root_index + 2, depth + 1)
+        if depth == 0:
+            print()
 
     @staticmethod
     def swap(array: list, i: int, j: int):
@@ -124,13 +126,10 @@ if __name__ == "__main__":
         P_Queue.insert(new_node)
 
     # print the generated priority queue
-    print()
-    print("Heap Array:")
-    print(P_Queue.heapArr)
-    print()
+    print("\nHeap Array:")
+    print(P_Queue.heapArr, "\n")
     print("Heap Tree:")
-    P_Queue.print_tree(0)
-    print()
+    P_Queue.print_tree()
 
     # search the target in the priority queue
     target = input()
